@@ -141,21 +141,13 @@ if type(ESX.RegisterServerCallback) == 'function'
             function(source, cb, ...)
                 local replied = false
 
-                local function safeCb(payload)
+                local function safeCb(...)
                     if replied then
                         return
                     end
 
                     replied = true
-
-                    cb(
-                        type(payload) == 'table'
-                        and payload
-                        or {
-                            success = false,
-                            message = 'Ongeldig antwoord van de server.'
-                        }
-                    )
+                    cb(...)
                 end
 
                 local args = table.pack(...)
@@ -188,17 +180,25 @@ if type(ESX.RegisterServerCallback) == 'function'
                     return
                 end
 
+                -- Sommige ESX-callbacks antwoorden bewust later via een async
+                -- callback. Geef die ruimte, maar laat ze nooit onbeperkt hangen.
                 if not replied then
-                    reportCallbackFailure(
-                        name,
-                        source,
-                        'Callback eindigde zonder cb() aan te roepen.'
-                    )
+                    SetTimeout(12000, function()
+                        if replied then
+                            return
+                        end
 
-                    safeCb({
-                        success = false,
-                        message = 'De serveractie gaf geen geldig antwoord.'
-                    })
+                        reportCallbackFailure(
+                            name,
+                            source,
+                            'Callback gaf binnen 12 seconden geen antwoord.'
+                        )
+
+                        safeCb({
+                            success = false,
+                            message = 'De serveractie gaf niet op tijd antwoord.'
+                        })
+                    end)
                 end
             end
         )
