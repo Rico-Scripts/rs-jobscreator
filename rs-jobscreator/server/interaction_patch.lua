@@ -152,15 +152,37 @@ local function dutyHandler(...)
         return notify(src, 'Duty systeem gaf een fout.', false)
     end
 
+    local xPlayer = getPlayer(src)
+    local onDuty = false
+
+    local stateOk, stateValue = pcall(function()
+        return exports['rs-duty']:IsOnDuty(src)
+    end)
+
+    if stateOk then
+        onDuty = stateValue == true
+    end
+
+    -- Houd ESX job-data compatibel met resources die job.onDuty uitlezen.
+    if xPlayer then
+        if type(xPlayer.job) == 'table' then
+            xPlayer.job.onDuty = onDuty
+        end
+
+        if xPlayer.getJob then
+            local job = xPlayer.getJob()
+            if type(job) == 'table' then
+                job.onDuty = onDuty
+            end
+        end
+    end
+
+    -- Belangrijk: niet nogmaals via de client toggelen. De export hierboven
+    -- heeft de status al exact één keer aangepast.
     notify(
         src,
         message or (success and 'Dienststatus aangepast.' or 'Duty mislukt.'),
         success
-    )
-
-    TriggerClientEvent(
-        'rs_jobscreator:client:toggleDuty',
-        src
     )
 end
 
