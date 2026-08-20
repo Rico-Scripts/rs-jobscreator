@@ -5,7 +5,7 @@ lua54 'yes'
 name 'rs-jobscreator'
 author 'RS Development'
 description 'RS Jobs Creator - ESX + oxmysql + ox_lib + ox_inventory'
-version '1.1.0'
+version '1.1.1'
 
 shared_scripts {
     '@ox_lib/init.lua',
@@ -20,6 +20,7 @@ client_scripts {
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'server/bootstrap.lua',
+    'server/interaction_patch.lua',
     'server/scanner.lua',
     'server/main.lua',
     'server/stability.lua',
