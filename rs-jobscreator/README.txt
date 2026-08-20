@@ -1,4 +1,4 @@
-RS Jobs Creator 1.0.0
+RS Jobs Creator 1.0.1
 
 INSTALLATIE
 1. Plaats de map rs-jobscreator in resources/[rs]/
@@ -17,11 +17,19 @@ INSTALLATIE
    add_ace group.admin rsjobscreator.admin allow
 5. Open met /jobscreator of F10.
 
+WEBHOOK LOGGING
+- Vul Config.WebhookUrl in om beheeracties en callback/serverfouten naar Discord te loggen.
+- Config.WebhookName bepaalt de naam van de webhookbot.
+- Laat Config.WebhookUrl leeg om webhooklogging uit te schakelen.
+
 BELANGRIJK
 - Deze resource voert GEEN ALTER TABLE uit. Daardoor veroorzaakt hij niet de 'Duplicate column whitelisted'-fout.
 - De resource detecteert automatisch of jobs.whitelisted en jobs.enabled bestaan.
 - De standaard ESX jobs/job_grades/users tabellen moeten al door ESX aanwezig zijn.
 - rs_jobscreator_points en rs_jobscreator_logs worden automatisch aangemaakt.
+- Job rename/delete en rang-delete gebruiken transacties zodat een SQL-fout geen halve wijziging achterlaat.
+- Servercallbacks zijn afgevangen zodat een fout altijd als response naar de NUI terugkomt.
+- Online ESX-spelers worden direct gesynchroniseerd bij job rename/delete en rang-delete.
 
 BESTAANDE JOBS
 Je kunt bestaande ESX jobs beheren zonder ze opnieuw te importeren.
