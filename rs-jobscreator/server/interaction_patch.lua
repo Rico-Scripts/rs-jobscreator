@@ -73,7 +73,7 @@ local function playerAllowed(src, point)
         >= (tonumber(point.min_grade) or 0)
 end
 
-local function bossMenuHandler()
+local function bossMenuHandler(...)
     local src = source
     local id = select(1, ...)
 
@@ -115,7 +115,7 @@ local function bossMenuHandler()
     )
 end
 
-local function dutyHandler()
+local function dutyHandler(...)
     local src = source
     local id = select(1, ...)
 
