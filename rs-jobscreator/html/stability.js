@@ -260,4 +260,12 @@
             );
         };
     }
+
+    // Laad uitbreidingen pas nadat app.js + deze stabilisatielaag gereed zijn.
+    if (!document.querySelector('script[data-rsjc-extensions]')) {
+        const script = document.createElement('script');
+        script.src = 'extensions.js';
+        script.dataset.rsjcExtensions = 'true';
+        document.body.appendChild(script);
+    }
 })();
