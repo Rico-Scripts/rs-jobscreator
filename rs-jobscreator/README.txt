@@ -1,4 +1,4 @@
-RS Jobs Creator 1.0.1
+RS Jobs Creator 1.1.0
 
 INSTALLATIE
 1. Plaats de map rs-jobscreator in resources/[rs]/
@@ -35,6 +35,19 @@ BESTAANDE JOBS
 Je kunt bestaande ESX jobs beheren zonder ze opnieuw te importeren.
 Nieuwe jobs krijgen automatisch grade 0 'employee'.
 
+JOB & RANG IMPORTER
+- Open Jobs Creator > Importeren.
+- Kies bij "Jobs & rangen uit resource halen" een gestarte resource.
+- De scanner zoekt onder andere naar ESX.RegisterSociety, Config.JobName, Config.Job en veelvoorkomende rangtabellen.
+- Gevonden jobs tonen bronbestand en detectiezekerheid voordat je importeert.
+- Importeren werkt merge-safe: bestaande jobs blijven bestaan en gevonden grades worden toegevoegd of bijgewerkt.
+- Dynamische, gecompileerde of encrypted/escrow configs kunnen niet altijd automatisch worden uitgelezen.
+
 PUNTEN
-Punten worden server-side gecontroleerd op job, grade, duty en afstand.
-De interactie gebruikt ox_lib context menus en ox_inventory.
+- Interactiepunten worden server-side gecontroleerd op job, grade, duty en afstand.
+- De getPoints response gebruikt vanaf 1.1.0 het verwachte response.points formaat, zodat punten werkelijk op de client geladen worden.
+- De interactie gebruikt ox_lib context menus en ox_inventory.
+
+NPC / PROP SELECTIE
+- NPC en prop instellingen hebben een echte dropdown met de ingebouwde modellenlijst.
+- "Custom model invoeren" blijft beschikbaar voor eigen peds, props en MLO-objectmodellen.
