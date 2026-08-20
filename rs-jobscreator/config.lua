@@ -10,6 +10,10 @@ Config.AdminGroups = {
     superadmin = true,
 }
 
+-- Discord webhook logging. Laat leeg om webhooklogging uit te schakelen.
+Config.WebhookUrl = ''
+Config.WebhookName = 'RS Jobs Creator'
+
 Config.MaxLogs = 100
 Config.PointDrawDistance = 25.0
 Config.InteractDistance = 2.0
