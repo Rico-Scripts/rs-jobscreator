@@ -1,0 +1,936 @@
+<!doctype html>
+
+<html lang="nl">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>RS Jobs Creator</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+
+<body>
+
+<main
+    id="app"
+    class="hidden"
+>
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside>
+
+        <div class="brand">
+
+            <span>
+                RS
+            </span>
+
+            <div>
+                <b>
+                    Jobs Creator
+                </b>
+
+                <small>
+                    ESX & ox-stack
+                </small>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <button
+                type="button"
+                class="active"
+                data-view="jobs"
+            >
+                Jobs
+            </button>
+
+
+            <button
+                type="button"
+                data-view="grades"
+            >
+                Rangen
+            </button>
+
+
+            <button
+                type="button"
+                data-view="points"
+            >
+                Interactiepunten
+            </button>
+
+
+            <button
+                type="button"
+                data-view="import"
+            >
+                Importeren
+            </button>
+
+
+            <button
+                type="button"
+                data-view="logs"
+            >
+                Logboek
+            </button>
+
+        </nav>
+
+
+        <button
+            id="close"
+            type="button"
+            class="danger ghost"
+        >
+            Sluiten
+
+            <kbd>
+                ESC
+            </kbd>
+        </button>
+
+    </aside>
+
+
+    <!-- =====================================================
+         WORKSPACE
+    ====================================================== -->
+
+    <section class="workspace">
+
+        <header>
+
+            <div>
+
+                <h1 id="title">
+                    Jobs
+                </h1>
+
+                <p id="subtitle">
+                    Maak en beheer ESX-jobs live.
+                </p>
+
+            </div>
+
+
+            <button
+                id="refresh"
+                type="button"
+            >
+                Vernieuwen
+            </button>
+
+        </header>
+
+
+        <!-- =================================================
+             NOTIFICATIONS
+        ================================================== -->
+
+        <div id="notice"></div>
+
+
+        <!-- =================================================
+             JOBS
+        ================================================== -->
+
+        <section
+            id="jobsView"
+            class="view active"
+        >
+
+            <div class="panel form-panel">
+
+                <h2>
+                    Job instellen
+                </h2>
+
+
+                <form id="jobForm">
+
+                    <input
+                        type="hidden"
+                        id="jobOriginal"
+                    >
+
+
+                    <label>
+                        Interne naam
+
+                        <input
+                            id="jobName"
+                            pattern="[a-z][a-z0-9_]+"
+                            maxlength="50"
+                            placeholder="bijvoorbeeld advocaten"
+                            autocomplete="off"
+                            required
+                        >
+                    </label>
+
+
+                    <label>
+                        Weergavenaam
+
+                        <input
+                            id="jobLabel"
+                            placeholder="Advocaten"
+                            maxlength="80"
+                            autocomplete="off"
+                            required
+                        >
+                    </label>
+
+
+                    <div class="checks">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                id="jobWhitelist"
+                            >
+
+                            Whitelistjob
+
+                        </label>
+
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                id="jobEnabled"
+                                checked
+                            >
+
+                            Actief
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button
+                            type="submit"
+                            class="primary"
+                        >
+                            Opslaan
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="newJob"
+                        >
+                            Nieuw
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="deleteJob"
+                            class="danger"
+                        >
+                            Verwijderen
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="panel grow">
+
+                <h2>
+                    Beheerde jobs
+                </h2>
+
+                <div
+                    id="jobsList"
+                    class="cards"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             GRADES
+        ================================================== -->
+
+        <section
+            id="gradesView"
+            class="view"
+        >
+
+            <div class="panel form-panel">
+
+                <h2>
+                    Rang instellen
+                </h2>
+
+
+                <form id="gradeForm">
+
+                    <label>
+                        Job
+
+                        <select
+                            id="gradeJob"
+                            required
+                        ></select>
+                    </label>
+
+
+                    <label>
+                        Rangnummer
+
+                        <input
+                            id="gradeNumber"
+                            type="number"
+                            min="0"
+                            max="99"
+                            step="1"
+                            required
+                        >
+                    </label>
+
+
+                    <label>
+                        Interne naam
+
+                        <input
+                            id="gradeName"
+                            pattern="[a-z][a-z0-9_]+"
+                            placeholder="employee"
+                            maxlength="50"
+                            autocomplete="off"
+                            required
+                        >
+                    </label>
+
+
+                    <label>
+                        Label
+
+                        <input
+                            id="gradeLabel"
+                            placeholder="Medewerker"
+                            maxlength="80"
+                            autocomplete="off"
+                            required
+                        >
+                    </label>
+
+
+                    <label>
+                        Salaris
+
+                        <input
+                            id="gradeSalary"
+                            type="number"
+                            min="0"
+                            max="1000000"
+                            step="1"
+                            value="0"
+                            required
+                        >
+                    </label>
+
+
+                    <label class="check">
+
+                        <input
+                            id="gradeBoss"
+                            type="checkbox"
+                        >
+
+                        Bossrang
+
+                    </label>
+
+
+                    <div class="actions">
+
+                        <button
+                            type="submit"
+                            class="primary"
+                        >
+                            Opslaan
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="newGrade"
+                        >
+                            Nieuw
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="deleteGrade"
+                            class="danger"
+                        >
+                            Verwijderen
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="panel grow">
+
+                <h2>
+                    Rangen
+                </h2>
+
+                <div
+                    id="gradesList"
+                    class="table"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             INTERACTION POINTS
+        ================================================== -->
+
+        <section
+            id="pointsView"
+            class="view"
+        >
+
+            <div class="panel form-panel wide-form">
+
+                <h2>
+                    Interactiepunt instellen
+                </h2>
+
+
+                <form id="pointForm">
+
+                    <input
+                        id="pointId"
+                        type="hidden"
+                    >
+
+
+                    <!-- =====================================
+                         JOB + TYPE
+                    ====================================== -->
+
+                    <div class="grid2">
+
+                        <label>
+                            Job
+
+                            <select
+                                id="pointJob"
+                            ></select>
+                        </label>
+
+
+                        <label>
+                            Type
+
+                            <select
+                                id="pointType"
+                                required
+                            ></select>
+                        </label>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         LABEL + MINIMUM GRADE
+                    ====================================== -->
+
+                    <div class="grid2">
+
+                        <label>
+                            Label
+
+                            <input
+                                id="pointLabel"
+                                maxlength="100"
+                                autocomplete="off"
+                                required
+                            >
+                        </label>
+
+
+                        <label>
+                            Minimumrang
+
+                            <input
+                                id="pointGrade"
+                                type="number"
+                                min="0"
+                                max="99"
+                                step="1"
+                                value="0"
+                            >
+                        </label>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         RADIUS + VISIBILITY
+                    ====================================== -->
+
+                    <div class="grid2">
+
+                        <label>
+                            Radius
+
+                            <input
+                                id="pointRadius"
+                                type="number"
+                                min="0.5"
+                                max="10"
+                                step="0.1"
+                                value="1.5"
+                            >
+                        </label>
+
+
+                        <div class="checks">
+
+                            <label>
+
+                                <input
+                                    id="pointPublic"
+                                    type="checkbox"
+                                >
+
+                                Publiek
+
+                            </label>
+
+
+                            <label>
+
+                                <input
+                                    id="pointEnabled"
+                                    type="checkbox"
+                                    checked
+                                >
+
+                                Actief
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         SETTINGS BUILDER
+                    ====================================== -->
+
+                    <fieldset class="settings-box">
+
+                        <legend>
+                            Instellingen
+                        </legend>
+
+
+                        <!-- ================================
+                             MAIN SETTINGS
+                        ================================= -->
+
+                        <div class="setting-checks">
+
+                            <label>
+
+                                <input
+                                    id="settingDuty"
+                                    type="checkbox"
+                                    checked
+                                >
+
+                                Dienst verplicht
+
+                            </label>
+
+
+                            <label>
+
+                                <input
+                                    id="settingBlip"
+                                    type="checkbox"
+                                >
+
+                                Blip tonen
+
+                            </label>
+
+
+                            <label>
+
+                                <input
+                                    id="settingPed"
+                                    type="checkbox"
+                                >
+
+                                NPC plaatsen
+
+                            </label>
+
+
+                            <label>
+
+                                <input
+                                    id="settingObject"
+                                    type="checkbox"
+                                >
+
+                                Object plaatsen
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- ================================
+                             TARGET ICON
+                        ================================= -->
+
+                        <label>
+                            Target-icoon
+
+                            <input
+                                id="settingIcon"
+                                placeholder="fa-solid fa-user-tie"
+                                autocomplete="off"
+                            >
+                        </label>
+
+
+                        <!-- ================================
+                             BLIP SETTINGS
+                        ================================= -->
+
+                        <div
+                            id="blipFields"
+                            class="grid3 hidden"
+                        >
+
+                            <label>
+                                Blipnummer
+
+                                <input
+                                    id="settingBlipSprite"
+                                    type="number"
+                                    min="0"
+                                    value="280"
+                                >
+                            </label>
+
+
+                            <label>
+                                Kleur
+
+                                <input
+                                    id="settingBlipColour"
+                                    type="number"
+                                    min="0"
+                                    value="3"
+                                >
+                            </label>
+
+
+                            <label>
+                                Grootte
+
+                                <input
+                                    id="settingBlipScale"
+                                    type="number"
+                                    min="0.1"
+                                    max="2"
+                                    step="0.05"
+                                    value="0.65"
+                                >
+                            </label>
+
+                        </div>
+
+
+                        <!-- ================================
+                             PED / NPC
+                        ================================= -->
+
+                        <label
+                            id="pedField"
+                            class="hidden"
+                        >
+                            NPC-model
+
+                            <input
+                                id="settingPedModel"
+                                list="rsPedModels"
+                                placeholder="Selecteer NPC of typ een custom model"
+                                autocomplete="off"
+                            >
+
+                            <small class="muted">
+                                Kies een standaard NPC of typ zelf een custom ped-model.
+                            </small>
+                        </label>
+
+
+                        <!-- ================================
+                             OBJECT / PROP
+                        ================================= -->
+
+                        <label
+                            id="objectField"
+                            class="hidden"
+                        >
+                            Objectmodel
+
+                            <input
+                                id="settingObjectModel"
+                                list="rsPropModels"
+                                placeholder="Selecteer prop of typ een custom model"
+                                autocomplete="off"
+                            >
+
+                            <small class="muted">
+                                Kies een standaard prop of typ zelf een custom MLO/object-model.
+                            </small>
+                        </label>
+
+
+                        <!-- ================================
+                             MODEL DROPDOWNS
+                        ================================= -->
+
+                        <datalist id="rsPedModels"></datalist>
+
+                        <datalist id="rsPropModels"></datalist>
+
+
+                        <!-- ================================
+                             TYPE SPECIFIC SETTINGS
+                        ================================= -->
+
+                        <div id="typeSettings"></div>
+
+                    </fieldset>
+
+
+                    <!-- =====================================
+                         ACTIONS
+                    ====================================== -->
+
+                    <div class="actions">
+
+                        <button
+                            type="submit"
+                            class="primary"
+                        >
+                            Opslaan
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="example"
+                        >
+                            Voorbeeld
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="newPoint"
+                        >
+                            Nieuw op huidige positie
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="deletePoint"
+                            class="danger"
+                        >
+                            Verwijderen
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="panel grow">
+
+                <h2>
+                    Actieve punten
+                </h2>
+
+                <div
+                    id="pointsList"
+                    class="table"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             RESOURCE IMPORTER
+        ================================================== -->
+
+        <section
+            id="importView"
+            class="view"
+        >
+
+            <div class="panel form-panel">
+
+                <h2>
+                    Resource scanner
+                </h2>
+
+
+                <p class="muted">
+                    Scan een FiveM-resource op items,
+                    crafting, voertuigen, opslag en locaties.
+                </p>
+
+
+                <label>
+                    Resource
+
+                    <select
+                        id="importResource"
+                    ></select>
+                </label>
+
+
+                <div class="actions">
+
+                    <button
+                        id="reloadImportResources"
+                        type="button"
+                    >
+                        Resources vernieuwen
+                    </button>
+
+
+                    <button
+                        id="scanImportResource"
+                        type="button"
+                        class="primary"
+                    >
+                        Resource scannen
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="importSummary"
+                    class="import-summary"
+                ></div>
+
+            </div>
+
+
+            <div class="panel grow">
+
+                <h2>
+                    Gevonden interacties
+                </h2>
+
+
+                <div
+                    id="importSuggestions"
+                    class="import-list"
+                >
+
+                    <div class="empty">
+                        Selecteer een resource en start een scan.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LOGS
+        ================================================== -->
+
+        <section
+            id="logsView"
+            class="view"
+        >
+
+            <div class="panel grow">
+
+                <h2>
+                    Laatste beheeracties
+                </h2>
+
+
+                <div
+                    id="logsList"
+                    class="table"
+                ></div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+</main>
+
+
+<script src="app.js"></script>
+
+</body>
+
+</html>

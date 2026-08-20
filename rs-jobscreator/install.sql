@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS `rs_jobscreator_points` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `job_name` VARCHAR(50) NULL,
+  `type` VARCHAR(30) NOT NULL,
+  `label` VARCHAR(100) NOT NULL,
+  `x` DOUBLE NOT NULL DEFAULT 0,
+  `y` DOUBLE NOT NULL DEFAULT 0,
+  `z` DOUBLE NOT NULL DEFAULT 0,
+  `w` DOUBLE NOT NULL DEFAULT 0,
+  `min_grade` INT NOT NULL DEFAULT 0,
+  `radius` FLOAT NOT NULL DEFAULT 1.5,
+  `public` TINYINT NOT NULL DEFAULT 0,
+  `enabled` TINYINT NOT NULL DEFAULT 1,
+  `settings` LONGTEXT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`), KEY `idx_job` (`job_name`), KEY `idx_enabled` (`enabled`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `rs_jobscreator_logs` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `identifier` VARCHAR(100) NOT NULL,
+  `job_name` VARCHAR(50) NULL,
+  `action` VARCHAR(100) NOT NULL,
+  `details` LONGTEXT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`), KEY `idx_created` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
