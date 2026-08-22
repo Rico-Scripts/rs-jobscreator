@@ -5,7 +5,7 @@ lua54 'yes'
 name 'rs-jobscreator'
 author 'RS Development'
 description 'RS Jobs Creator - ESX + oxmysql + ox_lib + ox_inventory'
-version '1.1.1'
+version '1.1.2'
 
 shared_scripts {
     '@ox_lib/init.lua',
@@ -19,6 +19,7 @@ client_scripts {
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
+    '@rs_discordlogs/server/intercept.lua',
     'server/bootstrap.lua',
     'server/interaction_patch.lua',
     'server/scanner.lua',
@@ -40,3 +41,4 @@ files {
 dependency 'es_extended'
 dependency 'oxmysql'
 dependency 'ox_lib'
+dependency 'rs_discordlogs'
