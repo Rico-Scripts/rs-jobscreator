@@ -4325,12 +4325,8 @@ window.addEventListener(
         await signalReady();
 
         /*
-            ox_inventory items laden.
-        */
-        await loadInventoryItems();
-
-        /*
-            Nogmaals koppelen nadat alles geladen is.
+            Inventory-items worden pas geladen nadat de server
+            een bevoegde admin via open/refresh heeft toegelaten.
         */
         initialiseModelDropdowns();
     }
